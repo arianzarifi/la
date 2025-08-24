@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>یک تغییر کوچک…</title>
+  <meta name="description" content="گاهی همه‌چیز از یک تغییر کوچک شروع می‌شود…" />
+  <meta property="og:title" content="یک تغییر کوچک…" />
+  <meta property="og:description" content="گاهی همه‌چیز از یک تغییر کوچک شروع می‌شود…" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>✨</text></svg>">
+  <style>
+    :root {
+      --card-bg: rgba(255, 255, 255, 0.12);
+      --card-stroke: rgba(255, 255, 255, 0.35);
+      --text: #ffffff;
+      --muted: #e7e7e7cc;
+      --accent: #ffd166;
+      --accent-2: #a78bfa;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-rounded, -apple-system, Segoe UI, Roboto, "IRANSans", "Vazirmatn", Tahoma, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 20% 10%, #2b2d42 0%, #1c1f2b 40%, #0f1220 100%);
+      overflow: hidden;
+    }
+    /* subtle animated gradient veil */
+    .veil {
+      position: fixed; inset: -40%;
+      background: conic-gradient(from 0deg, rgba(167,139,250,.12), rgba(255,209,102,.15), rgba(56,189,248,.12), rgba(167,139,250,.12));
+      filter: blur(90px) saturate(120%);
+      animation: spin 26s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes spin { to { transform: rotate(1turn); } }
+
+    .wrap { height: 100%; display: grid; place-items: center; padding: 24px; }
+    .card {
+      width: min(640px, 92vw);
+      backdrop-filter: blur(12px) saturate(130%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
+      background: var(--card-bg);
+      border: 1px solid var(--card-stroke);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.08);
+      position: relative;
+    }
+    .glow {
+      position: absolute; inset: -2px; border-radius: 24px;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,209,102,.18) 30%, rgba(167,139,250,.18) 70%, transparent 100%);
+      filter: blur(16px); opacity: .6; pointer-events: none;
+    }
+    h1 {
+      margin: 0 0 10px; font-size: clamp(22px, 4vw, 30px); font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    p { margin: 8px 0; line-height: 1.9; color: var(--muted); }
+
+    .btn {
+      display: inline-grid; place-items: center; gap: 8px; grid-auto-flow: column;
+      margin-top: 14px; padding: 12px 18px; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.25); color: #0f1220;
+      background: linear-gradient(180deg, #ffe8a3, #ffd166);
+      font-weight: 700; cursor: pointer; user-select: none;
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+      box-shadow: 0 8px 20px rgba(255,209,102,.28);
+    }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.03); }
+    .btn:active { transform: translateY(0); }
+
+    .reveal { margin-top: 16px; border-top: 1px dashed rgba(255,255,255,.25); padding-top: 16px; display: none; }
+
+    /* typewriter */
+    .type { font-size: clamp(18px, 3.6vw, 22px); color: #fff; min-height: 2.6em; }
+    .caret { display: inline-block; width: 10px; height: 1.1em; background: var(--accent);
+      margin-right: 3px; transform: translateY(3px); animation: blink 1s steps(1,end) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* floating heart */
+    .heart {
+      width: 18px; height: 18px; position: relative; display: inline-block; margin-inline: 6px;
+      transform-origin: center; animation: throb 1.6s ease-in-out infinite;
+      filter: drop-shadow(0 2px 6px rgba(255, 109, 135, .4));
+    }
+    @keyframes throb { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+
+    footer { margin-top: 18px; font-size: 12px; opacity: .65; }
+    .muted { color: var(--muted); }
+
+    .hint { font-size: 13px; opacity: .9; margin-top: 10px; }
+    .countdown { margin-top: 12px; font-size: 14px; letter-spacing: .4px; color: #cbd5e1; display: none; }
+
+    @media (max-width: 420px) {
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="veil" aria-hidden="true"></div>
+  <main class="wrap">
+    <section class="card" role="region" aria-label="پیام">
+      <div class="glow" aria-hidden="true"></div>
+
+      <h1>این صفحه هنوز کامل نیست…</h1>
+      <p class="muted">مثل بعضی چیزها که دوست دارم دوباره و بهتر بسازمشون.</p>
+
+      <button class="btn" id="revealBtn" aria-controls="reveal">یه چیز کوچک منتظرته</button>
+
+      <div id="reveal" class="reveal" aria-live="polite">
+        <div class="type" id="type"></div>
+        <div class="hint">«گاهی سکوت و فاصله، باعث می‌شه ارزش واقعی چیزها رو بفهمیم…»<span class="heart" aria-hidden="true">❤️</span></div>
+        <div class="countdown" id="countdown"></div>
+      </div>
+
+      <footer>ساخته‌شده با کمی خلاقیت و کمی شجاعت ✨</footer>
+    </section>
+  </main>
+
+  <script>
+    // ====== تنظیمات قابل ویرایش ======
+    // پیام‌های مرحله دوم (به ترتیب تایپ می‌شوند)
+    const messages = [
+      "همه چی از یک تغییر شروع می‌شه…",
+      "من شروع کردم. بقیه‌ش با تو.",
+    ];
+
+    // شمارش‌معکوس اختیاری: اگر نمی‌خواهی نمایش داده شود، showCountdown را false کن
+    const showCountdown = false; // true / false
+    const targetDate = new Date(Date.now() + 6 * 24 * 60 * 60 * 1000); // پیش‌فرض: شش روز بعد
+    // ==================================
+
+    const elBtn = document.getElementById('revealBtn');
+    const elReveal = document.getElementById('reveal');
+    const elType = document.getElementById('type');
+    const elCountdown = document.getElementById('countdown');
+
+    let revealed = false;
+
+    elBtn.addEventListener('click', () => {
+      if (revealed) return;
+      revealed = true;
+      elReveal.style.display = 'block';
+      typeSequence(messages, elType, 26).then(() => {
+        if (showCountdown) {
+          elCountdown.style.display = 'block';
+          tick();
+          setInterval(tick, 1000);
+        }
+      });
+    });
+
+    function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+    async function typeSequence(lines, container, speed=28){
+      container.innerHTML = '';
+      for (let i=0; i<lines.length; i++) {
+        await typeLine(lines[i], container, speed);
+        if (i < lines.length - 1) container.appendChild(document.createElement('br'));
+        await sleep(350);
+      }
+    }
+
+    async function typeLine(text, container, speed){
+      const span = document.createElement('span');
+      const caret = document.createElement('span'); caret.className = 'caret';
+      container.appendChild(caret); container.appendChild(span);
+      for (let i=0; i<text.length; i++) {
+        span.textContent += text[i];
+        await sleep(speed);
+      }
+      caret.remove();
+    }
+
+    function tick(){
+      const now = new Date();
+      const diff = Math.max(0, targetDate - now);
+      const d = Math.floor(diff / (1000*60*60*24));
+      const h = Math.floor(diff / (1000*60*60)) % 24;
+      const m = Math.floor(diff / (1000*60)) % 60;
+      const s = Math.floor(diff / 1000) % 60;
+      elCountdown.textContent = ` شمارش‌معکوس کوچک: ${pad(d)}:${pad(h)}:${pad(m)}:${pad(s)}`;
+    }
+    function pad(n){ return String(n).padStart(2,'0'); }
+  </script>
+</body>
+</html>
